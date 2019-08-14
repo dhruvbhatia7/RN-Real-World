@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 import EventCard from './src/components/EventCard';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import EventDetail from './src/screens/EventDetail';
 
-
-export default class App extends Component {
+class App extends Component {
   state = {
     events: []
   }
@@ -19,12 +20,13 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Here are the events near you</Text>
         <ScrollView style={styles.list}>
           {
             this.state.events.map(event_obj => {
               return (
-                <EventCard key = {event_obj.event_id} event = {event_obj}></EventCard>
+                <EventCard key = {event_obj.event_id} event = {event_obj} onPress={() => this.props.navigation.navigate('Detail', {
+                  event: event_obj
+                })}></EventCard>
               );
             })
           }
@@ -36,15 +38,49 @@ export default class App extends Component {
   }
 }
 
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: App,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#2f2f36'
+      },
+      title: 'Events around you',
+      headerTitleStyle: {
+        color: '#fff',
+        fontWeight: 'normal'
+      }
+    }
+  },
+  Detail: {
+    screen: EventDetail,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#2f2f36'
+      },
+      title: 'Events around you',
+      headerTitleStyle: {
+        color: '#fff',
+        fontWeight: 'normal'
+      },
+      headerTintColor: '#fff'
+    }
+  }
+});
+
+export default createAppContainer(AppNavigator);
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#373940'
+    backgroundColor: '#373940',
+    paddingTop: 20
   },
   welcome: {
     fontSize: 20,
-    marginTop: 60,
+    marginTop: 20,
     marginBottom: 20,
     textAlign: 'center',
     color: '#fff'

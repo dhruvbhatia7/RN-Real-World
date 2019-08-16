@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import styles from './EventCardStyle.js';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
